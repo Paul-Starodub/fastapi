@@ -1,24 +1,16 @@
 from fastapi import FastAPI
 import uvicorn
-from pydantic import EmailStr, BaseModel
 from items_views import router as items_router
+from users.views import router as users_router
 
 app = FastAPI()
 app.include_router(items_router)
-
-
-class CreateUser(BaseModel):
-    email: EmailStr
+app.include_router(users_router)
 
 
 @app.get("/")
 def hello_index():
     return {"message": "Hello Index"}
-
-
-@app.post("/users")
-def create_user(user: CreateUser):
-    return {"message": "User created", "email": user.email}
 
 
 @app.post("/calc/add")
